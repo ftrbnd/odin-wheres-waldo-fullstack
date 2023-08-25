@@ -1,0 +1,46 @@
+if (process.env.NODE_ENV !== 'production') {
+  // Load environment variables from .env file in non prod environments
+  require('dotenv').config();
+}
+require('./utils/database');
+
+const express = require('express');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
+const passport = require('passport');
+const logger = require('morgan');
+
+const apiRouter = require('./routes/api');
+
+const app = express();
+
+const whitelist = process.env.WHITELISTED_DOMAINS ? process.env.WHITELISTED_DOMAINS.split(',') : [];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+};
+
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use(cors(corsOptions));
+app.use(passport.initialize());
+
+app.use('/', (_req, res) => {
+  res.send("Welcome to the Where's Waldo! Access the API with the /api route.");
+});
+app.use('/api', apiRouter);
+
+const server = app.listen(process.env.PORT || 3000, () => {
+  const port = server.address().port;
+
+  console.log('App started at port', port);
+});
