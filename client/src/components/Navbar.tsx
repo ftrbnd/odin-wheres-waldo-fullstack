@@ -16,7 +16,9 @@ const Navbar = () => {
     >
       <ListItem>
         <ListItemDecorator>
-          <Avatar size="lg" src="https://i.imgur.com/W9TpN21.png" alt="game logo" />
+          <UndecoratedNavLink to="/">
+            <Avatar size="lg" src="https://i.imgur.com/W9TpN21.png" alt="game logo" />
+          </UndecoratedNavLink>
         </ListItemDecorator>
         <UndecoratedNavLink to="/">Where's Spidey?</UndecoratedNavLink>
       </ListItem>
