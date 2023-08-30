@@ -7,11 +7,11 @@ const Map = new Schema({
     required: true
   },
   x_range: {
-    type: Array,
+    type: [Number],
     required: true
   },
   y_range: {
-    type: Array,
+    type: [Number],
     required: true
   }
 });
