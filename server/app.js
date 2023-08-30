@@ -11,6 +11,7 @@ const cors = require('cors');
 const passport = require('passport');
 const logger = require('morgan');
 
+const indexRouter = require('./routes/index');
 const apiRouter = require('./routes/api');
 
 const app = express();
@@ -34,13 +35,11 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(cors(corsOptions));
 app.use(passport.initialize());
 
-app.use('/', (_req, res) => {
-  res.send("Welcome to the Where's Waldo! Access the API with the /api route.");
-});
+app.use('/', indexRouter);
 app.use('/api', apiRouter);
 
 const server = app.listen(process.env.PORT || 3000, () => {
   const port = server.address().port;
 
-  console.log('App started at port', port);
+  console.log(`App started at port ${port}`);
 });
