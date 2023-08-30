@@ -12,20 +12,24 @@ const SelectMenu: FC<IProps> = ({ x, y, clicked }) => {
     // fetch targets from db ? or in Game.tsx
   }, [x, y]);
 
+  const handleItemClick = () => {
+    // check if the clicked location is on a target
+  };
+
   return (
     <List sx={{ visibility: clicked ? 'visible' : 'hidden', position: 'absolute', top: `${y}px`, left: `${x}px`, zIndex: 1000 }}>
       <ListItem>
-        <ListItemButton variant="soft">
+        <ListItemButton variant="soft" onClick={handleItemClick}>
           <ListItemContent>TARGET 1</ListItemContent>
         </ListItemButton>
       </ListItem>
       <ListItem>
-        <ListItemButton variant="soft">
+        <ListItemButton variant="soft" onClick={handleItemClick}>
           <ListItemContent>TARGET 2</ListItemContent>
         </ListItemButton>
       </ListItem>
       <ListItem>
-        <ListItemButton variant="soft">
+        <ListItemButton variant="soft" onClick={handleItemClick}>
           <ListItemContent>TARGET 3</ListItemContent>
         </ListItemButton>
       </ListItem>
