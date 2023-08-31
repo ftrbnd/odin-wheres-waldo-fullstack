@@ -32,10 +32,10 @@ const Game: FC = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3000/api/targets')
+      .get<Target[]>('http://localhost:3000/api/targets')
       .then((res) => {
-        console.log(res.data.targets);
-        setTargets(res.data.targets);
+        console.log(res);
+        setTargets(res.data);
       })
       .catch((err) => console.error(err));
   }, []);

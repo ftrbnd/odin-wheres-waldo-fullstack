@@ -23,6 +23,7 @@ const SelectMenu: FC<IProps> = ({ exactX, exactY, adjustedX, adjustedY, clicked,
       });
 
       console.log(response.data.message);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       console.error(err.message);
     }

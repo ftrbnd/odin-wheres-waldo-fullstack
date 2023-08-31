@@ -4,7 +4,7 @@ const Target = require('../models/Target');
 exports.target_list = asyncHandler(async (_req, res) => {
   try {
     const targets = await Target.find({}, 'name').exec();
-    res.json({ targets });
+    res.json(targets);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
