@@ -5,6 +5,7 @@ export interface Map {
 }
 
 export interface Target {
+  _id?: string;
   name: string;
   maps: Map[];
 }

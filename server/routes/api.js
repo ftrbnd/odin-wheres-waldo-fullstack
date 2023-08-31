@@ -8,4 +8,6 @@ router.get('/', (_req, res) => {
 
 router.get('/targets', targetController.target_list);
 
+router.post('/targets/:id', targetController.validate_target);
+
 module.exports = router;
