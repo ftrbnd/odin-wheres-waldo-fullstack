@@ -1,7 +1,7 @@
-interface Map {
+export interface Map {
   name: string;
-  x_range: [];
-  y_range: [];
+  x_range: [number, number];
+  y_range: [number, number];
 }
 
 export interface Target {
