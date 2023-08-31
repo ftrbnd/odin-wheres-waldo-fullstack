@@ -5,7 +5,12 @@ export interface Map {
 }
 
 export interface Target {
-  _id?: string;
+  _id: string;
   name: string;
-  maps?: Map[];
+}
+
+export interface FoundTarget extends Target {
+  found: boolean;
+  x: number;
+  y: number;
 }

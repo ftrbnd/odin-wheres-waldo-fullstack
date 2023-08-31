@@ -1,6 +1,6 @@
 import { List, ListItem, ListItemButton, ListItemContent } from '@mui/joy';
 import { FC } from 'react';
-import { Map, Target } from '../utils/target';
+import { FoundTarget, Map, Target } from '../utils/target';
 import axios from 'axios';
 
 interface IProps {
@@ -11,9 +11,10 @@ interface IProps {
   clicked: boolean;
   targets: Target[];
   map: Map;
+  placeMarker: (target: FoundTarget) => void;
 }
 
-const SelectMenu: FC<IProps> = ({ exactX, exactY, adjustedX, adjustedY, clicked, targets, map }) => {
+const SelectMenu: FC<IProps> = ({ exactX, exactY, adjustedX, adjustedY, clicked, targets, map, placeMarker }) => {
   const handleTargetClick = async (target: Target) => {
     try {
       const response = await axios.post(`http://localhost:3000/api/targets/${target._id}`, {
@@ -23,6 +24,16 @@ const SelectMenu: FC<IProps> = ({ exactX, exactY, adjustedX, adjustedY, clicked,
       });
 
       console.log(response.data.message);
+      if (response.data.message === 'Found target!') {
+        const foundTarget: FoundTarget = {
+          ...target,
+          found: true,
+          x: adjustedX,
+          y: adjustedY
+        };
+
+        placeMarker(foundTarget);
+      }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       console.error(err.message);

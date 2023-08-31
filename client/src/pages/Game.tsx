@@ -4,7 +4,9 @@ import { AspectRatio, Skeleton, Stack, Typography } from '@mui/joy';
 import { useLocation } from 'react-router-dom';
 import SelectMenu from '../components/SelectMenu';
 import axios from 'axios';
-import { Map, Target } from '../utils/target';
+import { FoundTarget, Map, Target } from '../utils/target';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 
 const emptyMap: Map = {
   name: '',
@@ -21,6 +23,7 @@ const Game: FC = () => {
 
   const [targets, setTargets] = useState<Target[]>([]);
   const [map, setMap] = useState<Map>(emptyMap);
+  const [foundTargets, setFoundTargets] = useState<FoundTarget[]>([]);
 
   const [correctCount, setCorrectCount] = useState(0);
   const [timerStarted, setTimerStarted] = useState(false);
@@ -56,7 +59,15 @@ const Game: FC = () => {
       exactY.current = e.pageY / imgRef.current.offsetHeight;
     }
 
-    console.log(`Clicked on (${exactX.current}, ${exactY.current})`);
+    console.log(`Clicked on (${adjustedX}, ${adjustedY})`);
+  };
+
+  const placeMarker = (target: FoundTarget) => {
+    if (!foundTargets.find((t) => t.name === target.name)) {
+      setFoundTargets((prevTargets) => [...prevTargets, target]);
+    } else {
+      console.log(`Already found ${target.name}`);
+    }
   };
 
   return (
@@ -68,7 +79,12 @@ const Game: FC = () => {
         </Typography>
         <Typography level="body-md">Targets</Typography>
       </Stack>
-      <SelectMenu exactX={exactX.current} exactY={exactY.current} adjustedX={adjustedX} adjustedY={adjustedY} clicked={clicked} targets={targets} map={map} />
+      <SelectMenu exactX={exactX.current} exactY={exactY.current} adjustedX={adjustedX} adjustedY={adjustedY} clicked={clicked} targets={targets} map={map} placeMarker={placeMarker} />
+
+      {foundTargets.map((target) => (
+        <FontAwesomeIcon key={target.name} icon={faCircleCheck} beat style={{ color: '#13dd35', position: 'absolute', top: `${target.y}px`, left: `${target.x}px`, zIndex: 1000 }} />
+      ))}
+
       <AspectRatio ratio={'3/2'} sx={{ width: '100%' }}>
         <Skeleton loading={loading}>
           <img src={state.link} alt={state.name} ref={imgRef} onClick={(e) => handleImageClick(e)} />
