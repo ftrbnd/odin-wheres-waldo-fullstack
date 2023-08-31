@@ -7,6 +7,7 @@ import axios from 'axios';
 import { FoundTarget, Map, Target } from '../utils/target';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import GameOverModal from '../components/GameOverModal';
 
 const emptyMap: Map = {
   name: '',
@@ -25,9 +26,9 @@ const Game: FC = () => {
   const [map, setMap] = useState<Map>(emptyMap);
   const [foundTargets, setFoundTargets] = useState<FoundTarget[]>([]);
 
-  const [correctCount, setCorrectCount] = useState(0);
   const [timerStarted, setTimerStarted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
 
   const { minutes, seconds } = useTimer(timerStarted);
@@ -46,6 +47,12 @@ const Game: FC = () => {
   useEffect(() => {
     setMap(state);
   }, [state]);
+
+  useEffect(() => {
+    if (foundTargets.length === 3) {
+      setOpenModal(true);
+    }
+  }, [foundTargets]);
 
   const handleImageClick = (e: MouseEvent<HTMLImageElement>) => {
     // prevent menu from going off-screen on edges
@@ -73,12 +80,13 @@ const Game: FC = () => {
   return (
     <Stack alignItems={'center'}>
       <Stack direction={'row'} spacing={2}>
-        <Typography level="body-md">{correctCount} / 3</Typography>
+        <Typography level="body-md">{foundTargets.length} / 3</Typography>
         <Typography level="body-md">
           {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
         </Typography>
         <Typography level="body-md">Targets</Typography>
       </Stack>
+      <GameOverModal open={openModal} setOpen={setOpenModal} />
       <SelectMenu exactX={exactX.current} exactY={exactY.current} adjustedX={adjustedX} adjustedY={adjustedY} clicked={clicked} targets={targets} map={map} placeMarker={placeMarker} />
 
       {foundTargets.map((target) => (
