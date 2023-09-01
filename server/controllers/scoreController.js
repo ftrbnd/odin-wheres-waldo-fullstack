@@ -4,6 +4,10 @@ const Score = require('../models/Score');
 exports.score_list = asyncHandler(async (_req, res) => {
   try {
     const scores = await Score.find({}).exec();
+    scores.sort((a, b) => {
+      return a.time - b.time;
+    });
+
     const formatted_scores = [];
 
     for (const score of scores) {
