@@ -1,3 +1,4 @@
+import { Tooltip } from '@mui/joy';
 import { FC, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -8,10 +9,25 @@ interface LinkProps {
 }
 
 const UndecoratedNavLink: FC<LinkProps> = (props) => {
+  const handleTooltip = (url: string) => {
+    switch (url) {
+      case '/':
+        return 'Home';
+      case '/game':
+        return 'Start!';
+      case '/leaderboard':
+        return 'View Scores';
+      default:
+        return url;
+    }
+  };
+
   return (
-    <Link style={{ textDecoration: 'none', color: 'inherit' }} to={props.to} state={props.state}>
-      {props.children}
-    </Link>
+    <Tooltip title={handleTooltip(props.to)} variant="soft">
+      <Link style={{ textDecoration: 'none', color: 'inherit' }} to={props.to} state={props.state}>
+        {props.children}
+      </Link>
+    </Tooltip>
   );
 };
 
