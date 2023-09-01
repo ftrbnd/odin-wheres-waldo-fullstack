@@ -55,7 +55,7 @@ const Leaderboard: FC = () => {
               </td>
               <td>
                 <Typography>
-                  <Skeleton loading={loading}>{score.date.toString()}</Skeleton>
+                  <Skeleton loading={loading}>{new Date(score.date).toDateString()}</Skeleton>
                 </Typography>
               </td>
             </tr>
