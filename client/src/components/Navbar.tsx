@@ -1,4 +1,4 @@
-import { Avatar, List, ListDivider, ListItem, ListItemDecorator } from '@mui/joy';
+import { Avatar, List, ListItem, ListItemDecorator } from '@mui/joy';
 import UndecoratedNavLink from './UndecoratedNavLink';
 
 const Navbar = () => {
@@ -11,7 +11,8 @@ const Navbar = () => {
         mx: 'auto',
         '--ListItemDecorator-size': '48px',
         '--ListItem-paddingY': '1rem',
-        borderRadius: 'sm'
+        borderRadius: 'sm',
+        justifyContent: 'space-between'
       }}
     >
       <ListItem>
@@ -22,13 +23,8 @@ const Navbar = () => {
         </ListItemDecorator>
         <UndecoratedNavLink to="/">Where's Spidey?</UndecoratedNavLink>
       </ListItem>
-      <ListDivider inset="gutter" />
       <ListItem>
         <UndecoratedNavLink to={'/leaderboard'}>Leaderboard</UndecoratedNavLink>
-      </ListItem>
-      <ListDivider inset="gutter" />
-      <ListItem>
-        <UndecoratedNavLink to={'/auth'}>Auth</UndecoratedNavLink>
       </ListItem>
     </List>
   );

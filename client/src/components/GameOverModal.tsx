@@ -12,6 +12,7 @@ interface IProps {
 
 const GameOverModal: FC<IProps> = ({ open, setOpen, time, map }) => {
   const [name, setName] = useState('');
+  const finalTime = time;
 
   const navigate = useNavigate();
 
@@ -44,7 +45,7 @@ const GameOverModal: FC<IProps> = ({ open, setOpen, time, map }) => {
       <ModalDialog aria-labelledby="basic-modal-dialog-title" aria-describedby="basic-modal-dialog-description" sx={{ maxWidth: 500 }}>
         <ModalClose />
         <Typography id="basic-modal-dialog-title" level="h2">
-          You found all 3 targets!
+          You found all 3 targets in {finalTime} seconds!
         </Typography>
         <Typography id="basic-modal-dialog-description">Enter a name to be displayed on the leaderboard</Typography>
         <form onSubmit={(e) => handleSubmit(e)}>

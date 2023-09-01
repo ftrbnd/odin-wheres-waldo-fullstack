@@ -30,6 +30,7 @@ const Game: FC = () => {
   const [loading, setLoading] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
+  const [finishedTime, setFinishedTime] = useState(0);
 
   const { minutes, seconds } = useTimer(timerStarted);
   const { state } = useLocation();
@@ -61,7 +62,9 @@ const Game: FC = () => {
   useEffect(() => {
     if (foundTargets.length === 3) {
       setOpenModal(true);
+      setFinishedTime(minutes * 60 + seconds);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [foundTargets]);
 
   const handleImageClick = (e: MouseEvent<HTMLImageElement>) => {
@@ -96,7 +99,7 @@ const Game: FC = () => {
         </Typography>
         <Typography level="body-md">Targets</Typography>
       </Stack>
-      <GameOverModal open={openModal} setOpen={setOpenModal} time={minutes * 60 + seconds} map={map.name} />
+      <GameOverModal open={openModal} setOpen={setOpenModal} time={finishedTime} map={map.name} />
       <SelectMenu exactX={exactX.current} exactY={exactY.current} adjustedX={adjustedX} adjustedY={adjustedY} clicked={clicked} targets={targets} map={map} placeMarker={placeMarker} />
 
       {foundTargets.map((target) => (
