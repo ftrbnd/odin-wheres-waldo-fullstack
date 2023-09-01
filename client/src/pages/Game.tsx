@@ -1,5 +1,5 @@
 import { FC, useState, MouseEvent, useRef, useEffect } from 'react';
-import useTimer from '../utils/useTimer';
+import useTimer from '../hooks/useTimer';
 import { AspectRatio, Skeleton, Stack, Typography } from '@mui/joy';
 import { useLocation } from 'react-router-dom';
 import SelectMenu from '../components/SelectMenu';
