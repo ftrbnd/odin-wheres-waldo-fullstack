@@ -28,8 +28,8 @@ const SelectMenu: FC<IProps> = ({ exactX, exactY, adjustedX, adjustedY, clicked,
         const foundTarget: FoundTarget = {
           ...target,
           found: true,
-          x: adjustedX,
-          y: adjustedY
+          x: adjustedX + 144 >= 144 ? adjustedX : adjustedX + 144,
+          y: adjustedY + 143 >= 143 ? adjustedY : adjustedY + 143
         };
 
         placeMarker(foundTarget);

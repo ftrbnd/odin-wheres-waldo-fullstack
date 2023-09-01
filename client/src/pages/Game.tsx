@@ -35,13 +35,23 @@ const Game: FC = () => {
   const { state } = useLocation();
 
   useEffect(() => {
-    axios
-      .get<Target[]>('http://localhost:3000/api/targets')
-      .then((res) => {
+    async function fetchTargets() {
+      try {
+        setLoading(true);
+
+        const res = await axios.get<Target[]>('http://localhost:3000/api/targets');
         console.log(res);
+
         setTargets(res.data);
-      })
-      .catch((err) => console.error(err));
+        setTimerStarted(true);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchTargets();
   }, []);
 
   useEffect(() => {
@@ -66,7 +76,7 @@ const Game: FC = () => {
       exactY.current = e.pageY / imgRef.current.offsetHeight;
     }
 
-    console.log(`Clicked on (${adjustedX}, ${adjustedY})`);
+    console.log(`Clicked on (${e.pageX}, ${e.pageY})`);
   };
 
   const placeMarker = (target: FoundTarget) => {
