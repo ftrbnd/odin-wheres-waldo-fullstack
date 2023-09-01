@@ -4,12 +4,12 @@ import { AspectRatio, Skeleton, Stack, Typography } from '@mui/joy';
 import { useLocation } from 'react-router-dom';
 import SelectMenu from '../components/SelectMenu';
 import axios from 'axios';
-import { FoundTarget, Map, Target } from '../utils/target';
+import { FoundTarget, TargetMap, Target } from '../utils/target';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import GameOverModal from '../components/GameOverModal';
 
-const emptyMap: Map = {
+const emptyMap: TargetMap = {
   name: '',
   x_range: [-1, -1],
   y_range: [-1, -1]
@@ -23,7 +23,7 @@ const Game: FC = () => {
   const [clicked, setClicked] = useState(false);
 
   const [targets, setTargets] = useState<Target[]>([]);
-  const [map, setMap] = useState<Map>(emptyMap);
+  const [map, setMap] = useState<TargetMap>(emptyMap);
   const [foundTargets, setFoundTargets] = useState<FoundTarget[]>([]);
 
   const [timerStarted, setTimerStarted] = useState(false);
@@ -41,7 +41,6 @@ const Game: FC = () => {
         setLoading(true);
 
         const res = await axios.get<Target[]>('http://localhost:3000/api/targets');
-        console.log(res);
 
         setTargets(res.data);
         setTimerStarted(true);

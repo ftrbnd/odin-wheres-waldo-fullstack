@@ -1,4 +1,4 @@
-export interface Map {
+export interface TargetMap {
   name: string;
   x_range: [number, number];
   y_range: [number, number];

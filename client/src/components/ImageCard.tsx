@@ -1,23 +1,26 @@
-import { Card, CardCover, CardContent, Typography } from '@mui/joy';
+import { Card, CardContent, Typography, AspectRatio, Skeleton } from '@mui/joy';
 import { FC } from 'react';
-import { Image } from '../utils/image';
 import UndecoratedNavLink from './UndecoratedNavLink';
 
-const ImageCard: FC<Image> = (image) => {
+interface IProps {
+  link: string;
+  name: string;
+  loading: boolean;
+}
+
+const ImageCard: FC<IProps> = ({ link, name, loading }) => {
   return (
-    <UndecoratedNavLink to="/game" state={image}>
-      <Card component="li" sx={{ minWidth: 300, flexGrow: 1 }}>
-        <CardCover>
-          <img src={image.link} srcSet={`${image.link} 2x`} loading="lazy" alt={`${image.name}`} />
-        </CardCover>
-        <CardCover
-          sx={{
-            background: 'linear-gradient(to top, rgba(0,0,0,0.3), rgba(0,0,0,0) 200px), linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0) 300px)'
-          }}
-        />
-        <CardContent>
-          <Typography level="body-lg" fontWeight="lg" color="primary" mt={{ xs: 12, sm: 18 }}>
-            {image.name}
+    <UndecoratedNavLink to="/game" state={{ link, name }}>
+      <Card variant="outlined" sx={{ minWidth: 300, flexGrow: 1 }}>
+        <AspectRatio>
+          <Skeleton loading={loading}>
+            <img src={link} srcSet={`${link} 2x`} alt={`${name}`} />
+          </Skeleton>
+        </AspectRatio>
+
+        <CardContent orientation="horizontal">
+          <Typography level="body-lg" fontWeight="lg" color="primary">
+            <Skeleton loading={loading}>{name}</Skeleton>
           </Typography>
         </CardContent>
       </Card>
