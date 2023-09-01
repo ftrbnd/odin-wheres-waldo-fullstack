@@ -96,7 +96,7 @@ const Game: FC = () => {
         </Typography>
         <Typography level="body-md">Targets</Typography>
       </Stack>
-      <GameOverModal open={openModal} setOpen={setOpenModal} />
+      <GameOverModal open={openModal} setOpen={setOpenModal} time={minutes * 60 + seconds} map={map.name} />
       <SelectMenu exactX={exactX.current} exactY={exactY.current} adjustedX={adjustedX} adjustedY={adjustedY} clicked={clicked} targets={targets} map={map} placeMarker={placeMarker} />
 
       {foundTargets.map((target) => (

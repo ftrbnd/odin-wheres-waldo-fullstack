@@ -1,21 +1,36 @@
 import { Modal, ModalDialog, ModalClose, Typography, Button, FormControl, FormLabel, Input, Stack } from '@mui/joy';
+import axios from 'axios';
 import { FC, FormEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface IProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  time: number;
+  map: string;
 }
 
-const GameOverModal: FC<IProps> = ({ open, setOpen }) => {
+const GameOverModal: FC<IProps> = ({ open, setOpen, time, map }) => {
   const [name, setName] = useState('');
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setOpen(false);
 
-    // make POST request to api
+    try {
+      await axios.post('http://localhost:3000/api/scores/new', {
+        name,
+        time,
+        map
+      });
 
-    console.log(`${name} finished the game`);
+      setOpen(false);
+      navigate('/leaderboard');
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      console.error(err);
+    }
   };
 
   return (
