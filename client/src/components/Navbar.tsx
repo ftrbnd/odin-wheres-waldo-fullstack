@@ -1,5 +1,6 @@
 import { Avatar, List, ListItem, ListItemDecorator } from '@mui/joy';
 import UndecoratedNavLink from './UndecoratedNavLink';
+import ModeToggle from './ModeToggle';
 
 const Navbar = () => {
   return (
@@ -25,6 +26,9 @@ const Navbar = () => {
       </ListItem>
       <ListItem>
         <UndecoratedNavLink to={'/leaderboard'}>Leaderboard</UndecoratedNavLink>
+      </ListItem>
+      <ListItem>
+        <ModeToggle />
       </ListItem>
     </List>
   );

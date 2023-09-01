@@ -26,7 +26,7 @@ const Leaderboard: FC = () => {
 
   return (
     <Sheet>
-      <Table aria-label="basic table">
+      <Table aria-label="basic table" stripe={'even'}>
         <thead>
           <tr>
             <th style={{ width: '40%' }}>Player</th>

@@ -4,17 +4,21 @@ import App from './pages/App';
 import Navbar from './components/Navbar';
 import Game from './pages/Game';
 import Leaderboard from './pages/Leaderboard';
+import { CssBaseline, CssVarsProvider } from '@mui/joy';
 
 const RouteSwitch: FC = () => {
   return (
-    <BrowserRouter>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/game" element={<Game />} />
-        <Route path="/leaderboard" element={<Leaderboard />} />
-      </Routes>
-    </BrowserRouter>
+    <CssVarsProvider defaultMode="system">
+      <CssBaseline />
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="/game" element={<Game />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
+        </Routes>
+      </BrowserRouter>
+    </CssVarsProvider>
   );
 };
 
