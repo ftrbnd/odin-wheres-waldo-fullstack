@@ -1,4 +1,4 @@
-import { Avatar, List, ListItem, ListItemDecorator } from '@mui/joy';
+import { Avatar, List, ListItem, ListItemDecorator, Stack } from '@mui/joy';
 import UndecoratedNavLink from './UndecoratedNavLink';
 import ModeToggle from './ModeToggle';
 
@@ -6,7 +6,8 @@ const Navbar = () => {
   return (
     <List
       orientation="horizontal"
-      variant="outlined"
+      variant="soft"
+      color="primary"
       sx={{
         flexGrow: 0,
         mx: 'auto',
@@ -24,12 +25,14 @@ const Navbar = () => {
         </ListItemDecorator>
         <UndecoratedNavLink to="/">Where's Spidey?</UndecoratedNavLink>
       </ListItem>
-      <ListItem>
-        <UndecoratedNavLink to={'/leaderboard'}>Leaderboard</UndecoratedNavLink>
-      </ListItem>
-      <ListItem>
-        <ModeToggle />
-      </ListItem>
+      <Stack direction={'row'}>
+        <ListItem>
+          <UndecoratedNavLink to={'/leaderboard'}>Leaderboard</UndecoratedNavLink>
+        </ListItem>
+        <ListItem>
+          <ModeToggle />
+        </ListItem>
+      </Stack>
     </List>
   );
 };
