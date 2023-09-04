@@ -9,7 +9,7 @@ interface IProps {
   adjustedX: number;
   adjustedY: number;
   clicked: boolean;
-  targets: Target[];
+  targets?: Target[];
   map: TargetMap;
   handlePlacedTarget: (target: ClickedTarget) => void;
 }
@@ -49,7 +49,7 @@ const SelectMenu: FC<IProps> = ({ exactX, exactY, adjustedX, adjustedY, clicked,
 
   return (
     <List sx={{ visibility: clicked ? 'visible' : 'hidden', position: 'absolute', top: `${adjustedY}px`, left: `${adjustedX}px`, zIndex: 1000 }}>
-      {targets.map((target) => (
+      {targets?.map((target) => (
         <ListItem key={target.name}>
           <ListItemButton variant="soft" onClick={() => handleTargetClick(target)}>
             <ListItemContent>{target.name}</ListItemContent>

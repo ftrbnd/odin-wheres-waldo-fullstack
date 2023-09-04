@@ -3,12 +3,12 @@ import useTimer from '../hooks/useTimer';
 import { AspectRatio, Card, ColorPaletteProp, Divider, Skeleton, Stack, Typography } from '@mui/joy';
 import { useLocation } from 'react-router-dom';
 import SelectMenu from '../components/SelectMenu';
-import axios from 'axios';
 import { ClickedTarget, TargetMap, Target } from '../utils/target';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import GameOverModal from '../components/GameOverModal';
 import RadixToast from '../components/RadixToast';
+import useAxios from '../hooks/useAxios';
 
 const emptyMap: TargetMap = {
   name: '',
@@ -23,12 +23,12 @@ const Game: FC = () => {
   const [adjustedY, setAdjustedY] = useState(-1);
   const [clicked, setClicked] = useState(false);
 
-  const [targets, setTargets] = useState<Target[]>([]);
+  const { data: targets, loading } = useAxios<Target[]>({ method: 'GET', url: 'http://localhost:3000/api/targets' });
+
   const [map, setMap] = useState<TargetMap>(emptyMap);
   const [foundTargets, setFoundTargets] = useState<ClickedTarget[]>([]);
 
   const [timerStarted, setTimerStarted] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
   const [finishedTime, setFinishedTime] = useState(0);
@@ -41,23 +41,8 @@ const Game: FC = () => {
   const { state } = useLocation();
 
   useEffect(() => {
-    async function fetchTargets() {
-      try {
-        setLoading(true);
-
-        const res = await axios.get<Target[]>('http://localhost:3000/api/targets');
-
-        setTargets(res.data);
-        setTimerStarted(true);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchTargets();
-  }, []);
+    if (targets) setTimerStarted(true);
+  }, [targets]);
 
   useEffect(() => {
     setMap(state);

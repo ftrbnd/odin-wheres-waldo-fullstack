@@ -1,28 +1,10 @@
-import axios from 'axios';
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import { Score } from '../utils/score';
 import { Sheet, Skeleton, Table, Typography } from '@mui/joy';
+import useAxios from '../hooks/useAxios';
 
 const Leaderboard: FC = () => {
-  const [scores, setScores] = useState<Score[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchScores() {
-      setLoading(true);
-      try {
-        const res = await axios.get<Score[]>('http://localhost:3000/api/scores');
-
-        setScores(res.data);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchScores();
-  }, []);
+  const { data: scores, loading } = useAxios<Score[]>({ method: 'GET', url: 'http://localhost:3000/api/scores' });
 
   return (
     <Sheet>
@@ -36,7 +18,7 @@ const Leaderboard: FC = () => {
           </tr>
         </thead>
         <tbody>
-          {scores.map((score) => (
+          {scores?.map((score) => (
             <tr key={`${score.player}-${score.time}`}>
               <td>
                 <Typography>
