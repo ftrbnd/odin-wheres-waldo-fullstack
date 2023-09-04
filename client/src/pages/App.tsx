@@ -2,9 +2,10 @@ import { Box, Stack, Typography } from '@mui/joy';
 import ImageCard from '../components/ImageCard';
 import { GameMap } from '../utils/map';
 import useAxios from '../hooks/useAxios';
+import { SERVER_URL } from '../utils/server-url';
 
 const App = () => {
-  const { data: maps, loading } = useAxios<GameMap[]>({ method: 'GET', url: 'http://localhost:3000/api/maps' });
+  const { data: maps, loading } = useAxios<GameMap[]>({ method: 'GET', url: `${SERVER_URL}/maps` });
 
   return (
     <Stack spacing={2} alignItems={'center'}>

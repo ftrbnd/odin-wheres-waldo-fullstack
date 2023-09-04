@@ -9,6 +9,7 @@ import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import GameOverModal from '../components/GameOverModal';
 import RadixToast from '../components/RadixToast';
 import useAxios from '../hooks/useAxios';
+import { SERVER_URL } from '../utils/server-url';
 
 const emptyMap: TargetMap = {
   name: '',
@@ -23,7 +24,7 @@ const Game: FC = () => {
   const [adjustedY, setAdjustedY] = useState(-1);
   const [clicked, setClicked] = useState(false);
 
-  const { data: targets, loading } = useAxios<Target[]>({ method: 'GET', url: 'http://localhost:3000/api/targets' });
+  const { data: targets, loading } = useAxios<Target[]>({ method: 'GET', url: `${SERVER_URL}/targets` });
 
   const [map, setMap] = useState<TargetMap>(emptyMap);
   const [foundTargets, setFoundTargets] = useState<ClickedTarget[]>([]);
