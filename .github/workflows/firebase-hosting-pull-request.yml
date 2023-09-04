@@ -12,6 +12,8 @@ jobs:
       - run: npm ci && npm run build
         working-directory: ./client
       - uses: FirebaseExtended/action-hosting-deploy@v0
+        env:
+          PROJECT_PATH: ./client
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WHERES_SPIDEY_CLIENT }}'
