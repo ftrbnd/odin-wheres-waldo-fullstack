@@ -8,5 +8,6 @@ export default defineConfig({
     proxy: {
       '/api': 'https://wheres-spidey-server.fly.dev/'
     }
-  }
+  },
+  base: './'
 });
