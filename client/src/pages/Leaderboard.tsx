@@ -2,10 +2,12 @@ import { FC } from 'react';
 import { Score } from '../utils/score';
 import { Sheet, Skeleton, Table, Typography } from '@mui/joy';
 import useAxios from '../hooks/useAxios';
-import { SERVER_URL } from '../utils/server-url';
 
 const Leaderboard: FC = () => {
-  const { data: scores, loading } = useAxios<Score[]>({ method: 'GET', url: `${SERVER_URL}/scores` });
+  const { data: scores, loading } = useAxios<Score[]>({
+    method: 'GET',
+    url: '/api/scores'
+  });
 
   return (
     <Sheet>
