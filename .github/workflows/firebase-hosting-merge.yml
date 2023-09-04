@@ -19,3 +19,4 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WHERES_SPIDEY_CLIENT }}'
           channelId: live
           projectId: wheres-spidey-client
+          entryPoint: './client'
