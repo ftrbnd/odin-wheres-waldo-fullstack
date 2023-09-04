@@ -1,13 +1,14 @@
 import { FC, useState, MouseEvent, useRef, useEffect } from 'react';
 import useTimer from '../hooks/useTimer';
-import { AspectRatio, Skeleton, Stack, Typography } from '@mui/joy';
+import { AspectRatio, ColorPaletteProp, Skeleton, Stack, Typography } from '@mui/joy';
 import { useLocation } from 'react-router-dom';
 import SelectMenu from '../components/SelectMenu';
 import axios from 'axios';
-import { FoundTarget, TargetMap, Target } from '../utils/target';
+import { ClickedTarget, TargetMap, Target } from '../utils/target';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import GameOverModal from '../components/GameOverModal';
+import RadixToast from '../components/RadixToast';
 
 const emptyMap: TargetMap = {
   name: '',
@@ -24,13 +25,17 @@ const Game: FC = () => {
 
   const [targets, setTargets] = useState<Target[]>([]);
   const [map, setMap] = useState<TargetMap>(emptyMap);
-  const [foundTargets, setFoundTargets] = useState<FoundTarget[]>([]);
+  const [foundTargets, setFoundTargets] = useState<ClickedTarget[]>([]);
 
   const [timerStarted, setTimerStarted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
   const [finishedTime, setFinishedTime] = useState(0);
+
+  const [openToast, setOpenToast] = useState(false);
+  const [toastStatus, setToastStatus] = useState<ColorPaletteProp>('success');
+  const timerRef = useRef(0);
 
   const { minutes, seconds } = useTimer(timerStarted);
   const { state } = useLocation();
@@ -81,11 +86,24 @@ const Game: FC = () => {
     console.log(`Clicked on (${e.pageX}, ${e.pageY})`);
   };
 
-  const placeMarker = (target: FoundTarget) => {
-    if (!foundTargets.find((t) => t.name === target.name)) {
+  const showToast = (status: ColorPaletteProp) => {
+    setOpenToast(false);
+    window.clearTimeout(timerRef.current);
+    timerRef.current = window.setTimeout(() => {
+      setOpenToast(true);
+
+      setToastStatus(status);
+    }, 100);
+  };
+
+  const handlePlacedTarget = (target: ClickedTarget) => {
+    if (target.found && !foundTargets.find((t) => t.name === target.name)) {
       setFoundTargets((prevTargets) => [...prevTargets, target]);
+      showToast('success');
+    } else if (target.found && foundTargets.find((t) => t.name === target.name)) {
+      showToast('warning');
     } else {
-      console.log(`Already found ${target.name}`);
+      showToast('danger');
     }
   };
 
@@ -98,8 +116,12 @@ const Game: FC = () => {
         </Typography>
         <Typography level="body-md">Targets</Typography>
       </Stack>
+
       <GameOverModal open={openModal} setOpen={setOpenModal} time={finishedTime} map={map.name} />
-      <SelectMenu exactX={exactX.current} exactY={exactY.current} adjustedX={adjustedX} adjustedY={adjustedY} clicked={clicked} targets={targets} map={map} placeMarker={placeMarker} />
+
+      <RadixToast status={toastStatus} open={openToast} setOpen={setOpenToast} />
+
+      <SelectMenu exactX={exactX.current} exactY={exactY.current} adjustedX={adjustedX} adjustedY={adjustedY} clicked={clicked} targets={targets} map={map} handlePlacedTarget={handlePlacedTarget} />
 
       {foundTargets.map((target) => (
         <FontAwesomeIcon key={target.name} icon={faCircleCheck} beat style={{ color: '#13dd35', position: 'absolute', top: `${target.y}px`, left: `${target.x}px`, zIndex: 1000 }} />

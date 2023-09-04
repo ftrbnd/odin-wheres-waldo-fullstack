@@ -9,7 +9,7 @@ export interface Target {
   name: string;
 }
 
-export interface FoundTarget extends Target {
+export interface ClickedTarget extends Target {
   found: boolean;
   x: number;
   y: number;

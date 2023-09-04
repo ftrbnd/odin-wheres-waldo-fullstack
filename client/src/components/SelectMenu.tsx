@@ -1,6 +1,6 @@
 import { List, ListItem, ListItemButton, ListItemContent } from '@mui/joy';
 import { FC } from 'react';
-import { FoundTarget, Map, Target } from '../utils/target';
+import { ClickedTarget, TargetMap, Target } from '../utils/target';
 import axios from 'axios';
 
 interface IProps {
@@ -10,11 +10,11 @@ interface IProps {
   adjustedY: number;
   clicked: boolean;
   targets: Target[];
-  map: Map;
-  placeMarker: (target: FoundTarget) => void;
+  map: TargetMap;
+  handlePlacedTarget: (target: ClickedTarget) => void;
 }
 
-const SelectMenu: FC<IProps> = ({ exactX, exactY, adjustedX, adjustedY, clicked, targets, map, placeMarker }) => {
+const SelectMenu: FC<IProps> = ({ exactX, exactY, adjustedX, adjustedY, clicked, targets, map, handlePlacedTarget }) => {
   const handleTargetClick = async (target: Target) => {
     try {
       const response = await axios.post(`http://localhost:3000/api/targets/${target._id}`, {
@@ -23,16 +23,23 @@ const SelectMenu: FC<IProps> = ({ exactX, exactY, adjustedX, adjustedY, clicked,
         y: exactY
       });
 
-      console.log(response.data.message);
       if (response.data.message === 'Found target!') {
-        const foundTarget: FoundTarget = {
+        const clickedTarget: ClickedTarget = {
           ...target,
           found: true,
           x: adjustedX + 144 >= 144 ? adjustedX : adjustedX + 144,
           y: adjustedY + 143 >= 143 ? adjustedY : adjustedY + 143
         };
 
-        placeMarker(foundTarget);
+        handlePlacedTarget(clickedTarget);
+      } else if (response.data.message === 'Not a target.') {
+        const clickedTarget: ClickedTarget = {
+          ...target,
+          found: false,
+          x: adjustedX + 144 >= 144 ? adjustedX : adjustedX + 144,
+          y: adjustedY + 143 >= 143 ? adjustedY : adjustedY + 143
+        };
+        handlePlacedTarget(clickedTarget);
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
