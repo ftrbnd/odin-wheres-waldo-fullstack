@@ -27,9 +27,13 @@ const App = () => {
 
   return (
     <Stack spacing={2} alignItems={'center'}>
-      <Typography level="h2">Choose an image to get started!</Typography>
+      <Typography level="h2" textAlign={'center'}>
+        Choose an image to get started!
+      </Typography>
       <Box component="ul" sx={{ display: 'flex', justifyContent: 'center', gap: 2, flexWrap: 'wrap', p: 0, m: 0 }}>
-        {maps.length > 0 ? maps.map((map) => <ImageCard key={map._id} link={map.link} name={map.name} loading={loading} />) : <Typography>No maps found.</Typography>}
+        {maps.map((map) => (
+          <ImageCard key={map._id} link={map.link} name={map.name} loading={loading} />
+        ))}
       </Box>
     </Stack>
   );
