@@ -1,6 +1,6 @@
 import { FC, useState, MouseEvent, useRef, useEffect } from 'react';
 import useTimer from '../hooks/useTimer';
-import { AspectRatio, ColorPaletteProp, Skeleton, Stack, Typography } from '@mui/joy';
+import { AspectRatio, Card, ColorPaletteProp, Divider, Skeleton, Stack, Typography } from '@mui/joy';
 import { useLocation } from 'react-router-dom';
 import SelectMenu from '../components/SelectMenu';
 import axios from 'axios';
@@ -109,13 +109,17 @@ const Game: FC = () => {
 
   return (
     <Stack alignItems={'center'}>
-      <Stack direction={'row'} spacing={2}>
-        <Typography level="body-md">{foundTargets.length} / 3</Typography>
-        <Typography level="body-md">
-          {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
-        </Typography>
-        <Typography level="body-md">Targets</Typography>
-      </Stack>
+      <Card sx={{ p: 1, m: 1 }} variant="outlined">
+        <Stack direction={'row'} spacing={2} p={1}>
+          <Typography level="body-md">{foundTargets.length} / 3</Typography>
+          <Divider orientation="vertical" />
+          <Typography level="body-md">
+            {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
+          </Typography>
+          <Divider orientation="vertical" />
+          <Typography level="body-md">Targets</Typography>
+        </Stack>
+      </Card>
 
       <GameOverModal open={openModal} setOpen={setOpenModal} time={finishedTime} map={map.name} />
 
